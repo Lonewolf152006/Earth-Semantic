@@ -411,8 +411,12 @@ def get_sensor_telemetry():
         "status": "ANOMALY_DETECTED"
     }
 
-# Mount static files to serve the complete frontend UI on the same port!
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+# Mount static files to serve the complete frontend UI when running locally
+if not os.environ.get("VERCEL"):
+    try:
+        app.mount("/", StaticFiles(directory=".", html=True), name="static")
+    except Exception:
+        pass
 
 if __name__ == "__main__":
     import uvicorn
