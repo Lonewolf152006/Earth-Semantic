@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earth-Semantic — AI-Powered Geospatial Intelligence for Disaster Risk Assessment</title>
+  <meta name="description" content="Earth-Semantic is an enterprise geospatial intelligence and disaster early warning system featuring AI-driven multi-temporal change detection, risk heatmaps, and automated action protocols.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       SCREEN 1: LOGIN PAGE (SPLIT SCREEN)
+       ======================================================================== -->
+  <div id="view-login">
+    <!-- Left Hero Banner -->
+    <div class="login-left-banner">
+      <div class="brand-badge">
+        <div class="brand-icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/>
+            <path d="M3 12h18"/>
+            <path d="M12 8c2.5-3 5-3 7 0"/>
+          </svg>
+        </div>
+        <div class="brand-text-block">
+          <h1>Earth-Semantic</h1>
+          <p>Geospatial Intelligence</p>
+        </div>
+      </div>
+
+      <div class="login-hero-copy">
+        <h2>AI-Powered Geospatial Intelligence for Disaster Risk Assessment and Early Warning</h2>
+        <p>Combining multimodal satellite observation, SAR radar imagery, and predictive deep learning for real-time natural disaster mitigation.</p>
+        
+        <div class="hero-feature-tags">
+          <div class="feature-pill">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Monitor
+          </div>
+          <div class="feature-pill">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+            Analyze
+          </div>
+          <div class="feature-pill">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m19 12-7-7-7 7"/><path d="M12 19V5"/></svg>
+            Predict
+          </div>
+          <div class="feature-pill">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Protect
+          </div>
+        </div>
+      </div>
+
+      <div class="login-left-footer">
+        <span>Offline-Ready • Local-First Geospatial Architecture</span>
+        <span>Version 2.4.0 (SIH Special Edition)</span>
+      </div>
+    </div>
+
+    <!-- Right Login Form -->
+    <div class="login-right-panel">
+      <div class="login-box">
+        <div class="login-box-header">
+          <h2>Welcome Back</h2>
+          <p>Login to continue</p>
+        </div>
+
+        <form id="form-login" onsubmit="event.preventDefault(); window.EarthApp.login();">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <div class="input-with-icon">
+              <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" id="login-email" value="admin@earthsemantic.gov.in" placeholder="Enter your email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="input-with-icon">
+              <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="login-password" value="••••••••••••" placeholder="Enter your password" required>
+            </div>
+          </div>
+
+          <div class="form-row-actions">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" checked style="accent-color:var(--brand-primary);"> Remember session
+            </label>
+            <a href="javascript:void(0)" onclick="window.EarthApp.showToast('Password reset link sent to registered email.')">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn-primary" id="btn-login-submit">
+            <span>Login</span>
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+
+          <div class="divider-text">OR</div>
+
+          <button type="button" class="btn-demo-mode" id="btn-demo-mode" onclick="window.EarthApp.loginDemo()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Try Demo (One-Click Access)</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================
+       MAIN APP SHELL
+       ======================================================================== -->
+  <div id="app-container">
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/>
+            <path d="M3 12h18"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sidebar-brand-name">Earth-Semantic</div>
+          <div class="sidebar-brand-sub">Geospatial AI</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <!-- Dashboard -->
+        <a class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- New Assessment -->
+        <a class="nav-item" data-view="new-assessment" id="nav-new-assessment">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span>New Assessment</span>
+        </a>
+
+        <!-- Cases -->
+        <a class="nav-item" data-view="cases" id="nav-cases">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>Cases</span>
+        </a>
+
+        <!-- Analytics -->
+        <a class="nav-item" data-view="analytics" id="nav-analytics">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Analytics</span>
+        </a>
+
+        <!-- Alerts -->
+        <a class="nav-item" data-view="alerts" id="nav-alerts">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span>Alerts</span>
+          <span class="nav-badge red" id="sidebar-alert-badge">6</span>
+        </a>
+
+        <!-- Reports -->
+        <a class="nav-item" data-view="reports" id="nav-reports">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Reports</span>
+        </a>
+
+        <!-- Users -->
+        <a class="nav-item" data-view="users" id="nav-users">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Users</span>
+        </a>
+
+        <!-- Settings -->
+        <a class="nav-item" data-view="settings" id="nav-settings">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="system-status-indicator">
+          <div class="status-dot-pulse"></div>
+          <span>AI Engine Online • v2.4</span>
+        </div>
+
+        <div class="sidebar-user-pill" onclick="window.EarthApp.showToast('Logged in as Director of Disaster Response')">
+          <div class="user-avatar">AD</div>
+          <div class="user-info-text">
+            <div class="user-name">Admin Officer</div>
+            <div class="user-role">SDMA Uttarakhand</div>
+          </div>
+          <button style="background:none;border:none;color:#94a3b8;cursor:pointer;" title="Logout" onclick="event.stopPropagation(); window.EarthApp.logout();">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main id="main-wrapper">
+      
+      <!-- Topbar Header -->
+      <header id="topbar">
+        <div class="topbar-left">
+          <div class="topbar-search">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="global-search-input" placeholder="Search anything... (e.g. Uttarakhand, Flood, #1024)">
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Automated Demo Tour Button for video recording -->
+          <button class="btn-auto-tour" id="btn-start-auto-tour" onclick="window.EarthApp.runGuidedDemoTour()" title="Auto-runs an interactive walkthrough across all 12 screens for smooth video recording">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>🎬 Guided Demo Tour</span>
+          </button>
+
+          <!-- Dark/Light Theme Toggle -->
+          <button class="icon-btn" id="btn-theme-toggle" onclick="window.EarthApp.toggleDarkMode()" title="Toggle Dark/Light Mode">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+
+          <!-- Notification Bell -->
+          <button class="icon-btn" id="btn-topbar-bell" onclick="window.EarthApp.navigateTo('alerts')" title="6 Active Alerts">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <div class="notification-dot"></div>
+          </button>
+
+          <!-- Admin Profile Pill -->
+          <div class="admin-header-pill" onclick="window.EarthApp.navigateTo('settings')">
+            <div class="avatar-circle">AD</div>
+            <span class="admin-header-name">Admin</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- VIEW PANELS CONTAINER -->
+      <div id="content-container">
+
+        <!-- ====================================================================
+             SCREEN 2: DASHBOARD (HOME)
+             ==================================================================== -->
+        <section class="view-section active" id="view-dashboard">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Dashboard</h2>
+              <p>Overview of disaster risk assessment and alerts</p>
+            </div>
+            <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.startNewAssessment()">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>+ New Assessment</span>
+            </button>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-row">
+            <div class="kpi-card">
+              <span class="kpi-title">Total Assessments</span>
+              <span class="kpi-value" id="kpi-total-assessments">128</span>
+              <span class="kpi-badge success">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+                +12% from last month
+              </span>
+            </div>
+
+            <div class="kpi-card">
+              <span class="kpi-title">Active Cases</span>
+              <span class="kpi-value" id="kpi-active-cases" style="color:#2563eb;">17</span>
+              <span class="kpi-badge info">Ongoing analysis</span>
+            </div>
+
+            <div class="kpi-card">
+              <span class="kpi-title">Alerts</span>
+              <span class="kpi-value" id="kpi-alerts-count" style="color:var(--risk-high);">6</span>
+              <span class="kpi-badge danger">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                High priority
+              </span>
+            </div>
+
+            <div class="kpi-card">
+              <span class="kpi-title">Resolved Cases</span>
+              <span class="kpi-value" id="kpi-resolved-cases" style="color:var(--risk-low);">105</span>
+              <span class="kpi-badge success">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+                +16%
+              </span>
+            </div>
+          </div>
+
+          <!-- Middle Dashboard Grid: Risk Map & Recent Activity -->
+          <div class="dashboard-grid">
+            <!-- Left: Interactive Risk Map -->
+            <div class="card-panel">
+              <div class="card-panel-header">
+                <div>
+                  <h3>Risk Map (Live Overview)</h3>
+                  <span style="font-size:12px;color:var(--text-muted);">Real-time multi-satellite risk classification across Indian states</span>
+                </div>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="window.EarthApp.showToast('Satellite layer refreshed via INSAT-3D & Sentinel-2')">Satellite Feed</button>
+                  <button class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="window.EarthApp.showToast('Rainfall radar layer overlaid')">Precipitation</button>
+                </div>
+              </div>
+
+              <!-- Interactive SVG India Map -->
+              <div class="map-canvas-container" id="map-container">
+                <svg class="india-svg-map" viewBox="0 0 500 520" id="india-map-svg">
+                  <!-- Simplified Cartographic Representation of India States -->
+                  <g id="state-paths-group">
+                    <!-- J&K / Ladakh -->
+                    <path class="state-path risk-low" data-state="Jammu & Kashmir" data-risk="Low" data-info="Normal snowpack and water runoff levels." d="M150,50 L200,30 L250,50 L240,90 L200,105 L160,85 Z"></path>
+                    <!-- Himachal Pradesh -->
+                    <path class="state-path risk-low" data-state="Himachal Pradesh" data-risk="Low" data-info="Runoff normal. No immediate landslide risk." d="M185,95 L225,95 L220,125 L180,120 Z"></path>
+                    <!-- Uttarakhand (HIGH RISK) -->
+                    <path class="state-path risk-high" data-state="Uttarakhand" data-risk="High" data-info="CRITICAL: Severe cloudburst & flash flood threat along Alaknanda river." d="M225,100 L260,110 L255,145 L220,135 Z"></path>
+                    <!-- Punjab & Haryana -->
+                    <path class="state-path risk-low" data-state="Punjab & Haryana" data-risk="Low" data-info="Canal drainage normal." d="M155,105 L185,105 L185,145 L150,140 Z"></path>
+                    <!-- Rajasthan -->
+                    <path class="state-path risk-low" data-state="Rajasthan" data-risk="Low" data-info="Arid conditions, zero inundation warning." d="M100,140 L160,145 L150,220 L90,195 Z"></path>
+                    <!-- Uttar Pradesh -->
+                    <path class="state-path risk-med" data-state="Uttar Pradesh" data-risk="Medium" data-info="Gangetic plain water level rising near downstream barrages." d="M185,145 L285,150 L275,200 L180,195 Z"></path>
+                    <!-- Bihar -->
+                    <path class="state-path risk-med" data-state="Bihar" data-risk="Medium" data-info="Kosi river discharge elevated above normal baseline." d="M285,160 L350,165 L340,210 L280,205 Z"></path>
+                    <!-- Sikkim (HIGH RISK) -->
+                    <path class="state-path risk-high" data-state="Sikkim" data-risk="High" data-info="CRITICAL: Glacial Lake Outburst / Landslide probability >84%." d="M355,145 L375,145 L370,165 L350,165 Z"></path>
+                    <!-- Assam & Northeast (MEDIUM RISK) -->
+                    <path class="state-path risk-med" data-state="Assam" data-risk="Medium" data-info="Brahmaputra river surge warning in 4 districts." d="M375,150 L460,150 L450,205 L370,195 Z"></path>
+                    <!-- Gujarat -->
+                    <path class="state-path risk-low" data-state="Gujarat" data-risk="Low" data-info="Coastal conditions peaceful." d="M70,210 L130,220 L120,285 L60,265 Z"></path>
+                    <!-- Madhya Pradesh -->
+                    <path class="state-path risk-low" data-state="Madhya Pradesh" data-risk="Low" data-info="Central reservoirs at 74% holding capacity." d="M140,200 L240,200 L230,270 L135,265 Z"></path>
+                    <!-- Odisha (MEDIUM RISK) -->
+                    <path class="state-path risk-med" data-state="Odisha" data-risk="Medium" data-info="Tropical depression tracking off Bay of Bengal coastline." d="M260,230 L320,235 L300,295 L250,285 Z"></path>
+                    <!-- Maharashtra -->
+                    <path class="state-path risk-low" data-state="Maharashtra" data-risk="Low" data-info="Ghats precipitation within seasonal norms." d="M110,270 L200,270 L190,345 L100,335 Z"></path>
+                    <!-- Andhra Pradesh & Telangana -->
+                    <path class="state-path risk-low" data-state="Andhra Pradesh" data-risk="Low" data-info="Krishna and Godavari basins stable." d="M190,295 L260,295 L240,390 L180,380 Z"></path>
+                    <!-- Karnataka -->
+                    <path class="state-path risk-low" data-state="Karnataka" data-risk="Low" data-info="Cauvery catchment monitored." d="M120,345 L180,345 L170,425 L115,415 Z"></path>
+                    <!-- Kerala & Tamil Nadu -->
+                    <path class="state-path risk-low" data-state="Kerala & Tamil Nadu" data-risk="Low" data-info="Coastal radar detects light rainfall." d="M140,425 L210,410 L180,480 L140,470 Z"></path>
+                  </g>
+                </svg>
+
+                <!-- Tooltip floating on hover -->
+                <div class="map-tooltip" id="map-tooltip">
+                  <div style="font-weight:700;" id="tooltip-state-name">Uttarakhand</div>
+                  <div id="tooltip-risk-level" style="color:#f87171;">HIGH RISK</div>
+                  <div style="font-size:11px;color:#cbd5e1;" id="tooltip-info">Flash Flood Risk Detected</div>
+                </div>
+              </div>
+
+              <!-- Map Legend -->
+              <div class="map-legend">
+                <div class="legend-item">
+                  <span class="legend-color-dot high"></span>
+                  <span>High Risk (Critical)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-dot med"></span>
+                  <span>Medium Risk (Warning)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-dot low"></span>
+                  <span>Low Risk (Normal)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Recent Activity Feed -->
+            <div class="card-panel">
+              <div class="card-panel-header">
+                <div>
+                  <h3>Recent Activity</h3>
+                  <span style="font-size:12px;color:var(--text-muted);">Real-time alerts and pipeline triggers</span>
+                </div>
+                <button class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="window.EarthApp.navigateTo('alerts')">View All</button>
+              </div>
+
+              <div class="activity-feed-list">
+                <!-- Activity 1 -->
+                <div class="activity-item" onclick="window.EarthApp.loadCase('#1024')">
+                  <div class="activity-icon-indicator high">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                  </div>
+                  <div class="activity-content">
+                    <div class="activity-title-row">
+                      <span class="activity-title">Flash Flood Alert - Uttarakhand</span>
+                      <span class="activity-badge high">High</span>
+                    </div>
+                    <p class="activity-desc">Severe cloudburst detection along Alaknanda river basin.</p>
+                    <div class="activity-meta">15 minutes ago • Chamoli Sector</div>
+                  </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div class="activity-item" onclick="window.EarthApp.loadCase('#1023')">
+                  <div class="activity-icon-indicator high">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                  </div>
+                  <div class="activity-content">
+                    <div class="activity-title-row">
+                      <span class="activity-title">Landslide Risk Detected - Sikkim</span>
+                      <span class="activity-badge high">High</span>
+                    </div>
+                    <p class="activity-desc">Soil moisture saturation exceeded 89% threshold.</p>
+                    <div class="activity-meta">45 minutes ago • North Sikkim</div>
+                  </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div class="activity-item" onclick="window.EarthApp.loadCase('#1022')">
+                  <div class="activity-icon-indicator med">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></svg>
+                  </div>
+                  <div class="activity-content">
+                    <div class="activity-title-row">
+                      <span class="activity-title">Heavy Rainfall Predicted - Assam</span>
+                      <span class="activity-badge med">Medium</span>
+                    </div>
+                    <p class="activity-desc">Continuous monsoon surge over Brahmaputra tributaries.</p>
+                    <div class="activity-meta">2 hours ago • Majuli Sector</div>
+                  </div>
+                </div>
+
+                <!-- Activity 4 -->
+                <div class="activity-item" onclick="window.EarthApp.loadCase('#1021')">
+                  <div class="activity-icon-indicator med">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.2 7.8C15 9 14 10.5 14 12s1 3 2.2 4.2"/><path d="M7.8 16.2C9 15 10 13.5 10 12s-1-3-2.2-4.2"/></svg>
+                  </div>
+                  <div class="activity-content">
+                    <div class="activity-title-row">
+                      <span class="activity-title">Cyclone Tracking - Bay of Bengal</span>
+                      <span class="activity-badge med">Medium</span>
+                    </div>
+                    <p class="activity-desc">Low pressure cyclonic circulation heading towards coastal Odisha.</p>
+                    <div class="activity-meta">3 hours ago • Marine Radar</div>
+                  </div>
+                </div>
+
+                <!-- Activity 5 -->
+                <div class="activity-item" onclick="window.EarthApp.loadCase('#1020')">
+                  <div class="activity-icon-indicator low">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  </div>
+                  <div class="activity-content">
+                    <div class="activity-title-row">
+                      <span class="activity-title">Assessment Completed - Himachal</span>
+                      <span class="activity-badge low">Low</span>
+                    </div>
+                    <p class="activity-desc">Risk clearance report signed and delivered to local DM.</p>
+                    <div class="activity-meta">4 hours ago • Shimla Valley</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             SCREENS 3 TO 8: NEW ASSESSMENT WORKFLOW (STEPPER UI)
+             ==================================================================== -->
+        <section class="view-section" id="view-new-assessment">
+          <div class="view-header" style="max-width:860px;margin:0 auto 16px;">
+            <div class="view-header-title">
+              <h2>New Assessment</h2>
+              <p>End-to-end multimodal geospatial risk analysis workflow</p>
+            </div>
+            <button class="btn-secondary" onclick="window.EarthApp.resetAssessmentForm()">Reset Form</button>
+          </div>
+
+          <!-- Stepper Progress Header -->
+          <div class="stepper-progress-bar">
+            <div class="stepper-line">
+              <div class="stepper-line-fill" id="stepper-line-fill"></div>
+            </div>
+
+            <!-- Step 1 -->
+            <div class="stepper-step active" id="step-node-1" onclick="window.EarthApp.goToStep(1)">
+              <div class="stepper-circle">1</div>
+              <span class="stepper-label">Basic Information</span>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="stepper-step" id="step-node-2" onclick="window.EarthApp.goToStep(2)">
+              <div class="stepper-circle">2</div>
+              <span class="stepper-label">Data & Input</span>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="stepper-step" id="step-node-3" onclick="window.EarthApp.goToStep(3)">
+              <div class="stepper-circle">3</div>
+              <span class="stepper-label">Verification</span>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="stepper-step" id="step-node-4" onclick="window.EarthApp.goToStep(4)">
+              <div class="stepper-circle">4</div>
+              <span class="stepper-label">Analysis</span>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="stepper-step" id="step-node-5" onclick="window.EarthApp.goToStep(5)">
+              <div class="stepper-circle">5</div>
+              <span class="stepper-label">Result</span>
+            </div>
+          </div>
+
+
+          <!-- STEP 1: BASIC INFORMATION (Screen 3) -->
+          <div class="stepper-panel active" id="step-panel-1">
+            <div class="panel-title-block">
+              <h3>Basic Information</h3>
+              <p>Enter the basic details for the new assessment</p>
+            </div>
+
+            <div class="form-group">
+              <label for="assess-title">Assessment Title *</label>
+              <input type="text" id="assess-title" class="standard-input" value="Uttarakhand Rainfall Risk Assessment" placeholder="e.g. Chamoli Flash Flood Analysis">
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="assess-disaster-type">Disaster Type *</label>
+                <select id="assess-disaster-type" class="standard-input">
+                  <option selected>Flash Flood</option>
+                  <option>Landslide</option>
+                  <option>Riverine Flood</option>
+                  <option>Cyclone</option>
+                  <option>Forest Fire</option>
+                  <option>Drought</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="assess-state">State *</label>
+                <select id="assess-state" class="standard-input">
+                  <option selected>Uttarakhand</option>
+                  <option>Sikkim</option>
+                  <option>Assam</option>
+                  <option>Himachal Pradesh</option>
+                  <option>Odisha</option>
+                  <option>Kerala</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="assess-district">District</label>
+                <select id="assess-district" class="standard-input">
+                  <option selected>Chamoli</option>
+                  <option>Rudraprayag</option>
+                  <option>Uttarkashi</option>
+                  <option>Tehri Garhwal</option>
+                  <option>Pauri Garhwal</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="assess-date">Date</label>
+                <input type="date" id="assess-date" class="standard-input" value="2026-09-21">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="assess-desc">Description</label>
+              <textarea id="assess-desc" class="standard-input" rows="3" placeholder="Enter contextual assessment notes...">Heavy rainfall reported in the region. Need risk analysis for potential flash floods along Alaknanda and Mandakini river catchments.</textarea>
+            </div>
+
+            <div class="stepper-actions">
+              <button class="btn-secondary" onclick="window.EarthApp.showToast('Draft saved successfully to offline cache')">Save Draft</button>
+              <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.goToStep(2)">
+                <span>Next</span>
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- STEP 2: DATA & INPUT (Screen 4) -->
+          <div class="stepper-panel" id="step-panel-2">
+            <div class="panel-title-block">
+              <h3>Data & Input</h3>
+              <p>Provide the required data for analysis</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="data-input-tabs">
+              <button class="tab-btn active" onclick="window.EarthApp.switchInputTab(this, 'upload')">Upload Data</button>
+              <button class="tab-btn" onclick="window.EarthApp.switchInputTab(this, 'manual')">Manual Input</button>
+              <button class="tab-btn" onclick="window.EarthApp.switchInputTab(this, 'live')">Live Data</button>
+              <button class="tab-btn" onclick="window.EarthApp.switchInputTab(this, 'satellite')">Satellite Data</button>
+            </div>
+
+            <div class="data-input-layout">
+              <!-- Left: Upload Box -->
+              <div>
+                <div class="upload-dropzone" onclick="window.EarthApp.simulateFileUpload()">
+                  <svg class="dropzone-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <div class="dropzone-title">Upload Files</div>
+                  <div class="dropzone-sub">Supports GeoTIFF, CSV, SHP, KML, JPG, PNG (Max 50MB)</div>
+                  <button class="btn-secondary" type="button" style="margin:0 auto;display:inline-flex;">Browse Files</button>
+                </div>
+              </div>
+
+              <!-- Right: Uploaded Files List -->
+              <div class="uploaded-files-container">
+                <h4>Uploaded Files</h4>
+                
+                <div class="file-item-card">
+                  <div class="file-info">
+                    <div class="file-icon" style="background:#fee2e2;color:#b91c1c;">CSV</div>
+                    <div>
+                      <div class="file-name">rainfall_data.csv</div>
+                      <div class="file-size">2.5 MB • Precipitation Gauge Timeseries</div>
+                    </div>
+                  </div>
+                  <svg width="18" height="18" fill="none" stroke="#10b981" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+
+                <div class="file-item-card">
+                  <div class="file-info">
+                    <div class="file-icon" style="background:#dbeafe;color:#1e40af;">TIF</div>
+                    <div>
+                      <div class="file-name">terrain_map.tif</div>
+                      <div class="file-size">5.1 MB • SRTM 30m Digital Elevation Model</div>
+                    </div>
+                  </div>
+                  <svg width="18" height="18" fill="none" stroke="#10b981" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+
+                <div class="file-item-card">
+                  <div class="file-info">
+                    <div class="file-icon" style="background:#dcfce7;color:#15803d;">JPG</div>
+                    <div>
+                      <div class="file-name">satellite_image.jpg</div>
+                      <div class="file-size">3.8 MB • Sentinel-2 Multispectral Surface Tile</div>
+                    </div>
+                  </div>
+                  <svg width="18" height="18" fill="none" stroke="#10b981" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="stepper-actions">
+              <button class="btn-secondary" onclick="window.EarthApp.goToStep(1)">← Back</button>
+              <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.goToStep(3)">
+                <span>Validate Data</span>
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- STEP 3: VERIFICATION (Screen 5) -->
+          <div class="stepper-panel" id="step-panel-3">
+            <div class="panel-title-block">
+              <h3>Data Verification</h3>
+              <p>Checking the uploaded data and inputs against quality control rules</p>
+            </div>
+
+            <div class="verification-checklist">
+              <div class="check-item">
+                <div class="check-icon-circle">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="check-text">
+                  <h4>All required fields completed</h4>
+                  <p>Assessment Title, Disaster Type, State, and District geocodes successfully resolved.</p>
+                </div>
+              </div>
+
+              <div class="check-item">
+                <div class="check-icon-circle">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="check-text">
+                  <h4>File format verified</h4>
+                  <p>Validated GeoTIFF (EPSG:4326), Tabular CSV UTF-8 headers, and Sentinel-2 tile projections.</p>
+                </div>
+              </div>
+
+              <div class="check-item">
+                <div class="check-icon-circle">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="check-text">
+                  <h4>Data consistency check completed</h4>
+                  <p>Temporal timestamps match monsoon period sequence T1-T3 without anomalous gaps.</p>
+                </div>
+              </div>
+
+              <div class="check-item">
+                <div class="check-icon-circle">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="check-text">
+                  <h4>Duplicate data check completed</h4>
+                  <p>Zero conflicting duplicate tiles detected in local vector indexing repository.</p>
+                </div>
+              </div>
+
+              <div class="check-item">
+                <div class="check-icon-circle">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="check-text">
+                  <h4>Geospatial coverage verified</h4>
+                  <p>Covers 1,420 km² across Chamoli and Rudraprayag river gorge sectors.</p>
+                </div>
+              </div>
+
+              <!-- Warning check -->
+              <div class="check-item warning">
+                <div class="check-icon-circle">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="check-text">
+                  <h4>Missing metadata (optional)</h4>
+                  <p>Consider adding micro-topography LiDaR elevation data for sub-meter flood boundary precision.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="stepper-actions">
+              <button class="btn-secondary" onclick="window.EarthApp.goToStep(2)">← Back</button>
+              <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.startProcessing()">
+                <span>Continue</span>
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- STEP 4: PROCESSING (Screen 6) -->
+          <div class="stepper-panel" id="step-panel-4">
+            <div class="panel-title-block">
+              <h3>Processing Your Data</h3>
+              <p>Our multimodal AI model is analyzing the input data...</p>
+            </div>
+
+            <div class="processing-layout">
+              <!-- Left Pipeline Stages -->
+              <div class="pipeline-steplist">
+                <div class="pipeline-step-item done" id="pipe-step-1">
+                  <div class="pipeline-step-icon">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight:700;color:var(--text-title);">Data Preprocessing</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Cleaning and standardizing data</div>
+                  </div>
+                </div>
+
+                <div class="pipeline-step-item done" id="pipe-step-2">
+                  <div class="pipeline-step-icon">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight:700;color:var(--text-title);">Feature Extraction</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Extracting key geospatial features</div>
+                  </div>
+                </div>
+
+                <div class="pipeline-step-item active" id="pipe-step-3">
+                  <div class="pipeline-step-icon">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight:700;color:var(--brand-primary);">AI/ML Analysis</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Running risk prediction model</div>
+                  </div>
+                </div>
+
+                <div class="pipeline-step-item" id="pipe-step-4">
+                  <div class="pipeline-step-icon">
+                    <svg width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight:700;color:var(--text-muted);">Rule-based Validation</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Checking with disaster thresholds</div>
+                  </div>
+                </div>
+
+                <div class="pipeline-step-item" id="pipe-step-5">
+                  <div class="pipeline-step-icon">
+                    <svg width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight:700;color:var(--text-muted);">Generating Results</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Finalizing assessment and recommendations</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Circular Gauge -->
+              <div class="circular-gauge-wrapper">
+                <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+                  <svg class="gauge-svg" viewBox="0 0 160 160">
+                    <circle class="gauge-bg" cx="80" cy="80" r="65"></circle>
+                    <circle class="gauge-progress" id="gauge-circle-progress" cx="80" cy="80" r="65"></circle>
+                  </svg>
+                  <div class="gauge-content-box">
+                    <span class="gauge-percentage" id="gauge-percentage-text">60%</span>
+                  </div>
+                </div>
+                <div class="gauge-status-sub" id="gauge-status-label">Analyzing...</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">This may take a few moments</div>
+              </div>
+            </div>
+
+            <div class="stepper-actions">
+              <button class="btn-secondary" onclick="window.EarthApp.goToStep(3)">← Back</button>
+              <button class="btn-primary" style="width:auto;" id="btn-view-result" onclick="window.EarthApp.goToStep(5)">
+                <span>View Result Now</span>
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- STEP 5: RESULT (Screen 7) -->
+          <div class="stepper-panel" id="step-panel-5">
+            <div class="panel-title-block">
+              <h3>Analysis Result</h3>
+              <p>AI-powered disaster risk assessment</p>
+            </div>
+
+            <!-- Risk Banner & Confidence Score Row -->
+            <div class="result-header-row">
+              <div class="risk-level-banner">
+                <div class="risk-level-icon">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="risk-banner-text">
+                  <h3>High Risk</h3>
+                  <p>The region is at high risk of flash floods</p>
+                </div>
+              </div>
+
+              <div class="confidence-score-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:12.5px;font-weight:600;color:var(--text-muted);">Confidence Score</span>
+                  <span class="confidence-score-num">87%</span>
+                </div>
+                <div class="score-bar-track">
+                  <div class="score-bar-fill"></div>
+                </div>
+                <div style="font-size:11px;color:var(--text-light);margin-top:6px;">High agreement across SAR & Optical models</div>
+              </div>
+            </div>
+
+            <!-- Key Findings & Heatmap Grid -->
+            <div class="result-detail-grid">
+              <!-- Key Findings List -->
+              <div>
+                <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text-title);">Key Findings</h4>
+                <div class="key-findings-list">
+                  <div class="finding-bullet">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <div>Very high rainfall predicted in next 48 hours (320mm catchment influx)</div>
+                  </div>
+                  <div class="finding-bullet">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <div>River water level above danger mark (+2.4m above normal gauge line)</div>
+                  </div>
+                  <div class="finding-bullet">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <div>Soil saturation indicates high landslide risk (Saturation index: 91%)</div>
+                  </div>
+                  <div class="finding-bullet">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <div>Low drainage capacity in identified gorge bottlenecks</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Risk Heatmap Preview -->
+              <div>
+                <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text-title);">Risk Heatmap</h4>
+                <div class="heatmap-preview-container">
+                  <img src="assets/flood_risk_heatmap.jpg" alt="AI Risk Heatmap for Uttarakhand">
+                  <div class="heatmap-overlay-legend">
+                    ● High &nbsp; ● Med &nbsp; ● Low
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stepper-actions">
+              <button class="btn-secondary" onclick="window.EarthApp.goToStep(4)">← Back</button>
+              <div style="display:flex;gap:12px;">
+                <button class="btn-secondary" onclick="window.EarthApp.openDetailedModal()">View Detailed Analysis</button>
+                <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.goToStep(6)">
+                  <span>Next: Recommendations</span>
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- STEP 6: RECOMMENDATION / ACTION (Screen 8) -->
+          <div class="stepper-panel" id="step-panel-6">
+            <div class="panel-title-block">
+              <h3>Recommended Actions</h3>
+              <p>Based on the analysis, the following actions are suggested for disaster management authorities</p>
+            </div>
+
+            <div class="high-priority-header-banner">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div>
+                <h4>High Priority Action</h4>
+                <p>Immediate attention and deployment required in Rudraprayag and Chamoli sectors</p>
+              </div>
+            </div>
+
+            <table class="recommendations-table">
+              <thead>
+                <tr>
+                  <th style="width:50%;">Recommended Actions</th>
+                  <th>Assign To</th>
+                  <th>Deadline</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="action-row-content">
+                      <span class="action-number-badge">1</span>
+                      <div>
+                        <div style="font-weight:700;color:var(--text-title);">Issue early warning to local authorities</div>
+                        <div style="font-size:12px;color:var(--text-muted);">Notify district administration and disaster management teams</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="standard-input" style="padding:4px 8px;font-size:12px;">
+                      <option selected>District Authority</option>
+                      <option>State Disaster Response Force</option>
+                      <option>National Disaster Management</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="standard-input" value="23/09/2026" style="padding:4px 8px;font-size:12px;width:100px;">
+                  </td>
+                  <td>
+                    <span class="status-badge pending">Pending</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="action-row-content">
+                      <span class="action-number-badge">2</span>
+                      <div>
+                        <div style="font-weight:700;color:var(--text-title);">Alert vulnerable communities</div>
+                        <div style="font-size:12px;color:var(--text-muted);">Send SMS alerts to nearby residents in low-lying riparian sectors</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="standard-input" style="padding:4px 8px;font-size:12px;">
+                      <option selected>Telecom & Relief Bureau</option>
+                      <option>District Police</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="standard-input" value="22/09/2026" style="padding:4px 8px;font-size:12px;width:100px;">
+                  </td>
+                  <td>
+                    <span class="status-badge processing">In Progress</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="action-row-content">
+                      <span class="action-number-badge">3</span>
+                      <div>
+                        <div style="font-weight:700;color:var(--text-title);">Prepare evacuation plans</div>
+                        <div style="font-size:12px;color:var(--text-muted);">Identify and prepare elevated safe zones and medical supplies</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="standard-input" style="padding:4px 8px;font-size:12px;">
+                      <option selected>NDRF Battalion 8</option>
+                      <option>Indian Army Medical Corps</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="standard-input" value="22/09/2026" style="padding:4px 8px;font-size:12px;width:100px;">
+                  </td>
+                  <td>
+                    <span class="status-badge completed">Ready</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="action-row-content">
+                      <span class="action-number-badge">4</span>
+                      <div>
+                        <div style="font-weight:700;color:var(--text-title);">Increase monitoring</div>
+                        <div style="font-size:12px;color:var(--text-muted);">Continuous observation of rainfall and river discharge levels</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="standard-input" style="padding:4px 8px;font-size:12px;">
+                      <option selected>Hydrology Observation Unit</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="standard-input" value="Continuous" style="padding:4px 8px;font-size:12px;width:100px;">
+                  </td>
+                  <td>
+                    <span class="status-badge completed">Active</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="stepper-actions">
+              <button class="btn-secondary" onclick="window.EarthApp.goToStep(5)">← Back</button>
+              <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.saveAndGenerateReport()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save & Generate Report</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             SCREEN 9: CASE MANAGEMENT (ALL CASES)
+             ==================================================================== -->
+        <section class="view-section" id="view-cases">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>All Cases</h2>
+              <p>View and manage previous disaster risk assessments</p>
+            </div>
+            <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.startNewAssessment()">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>+ New Assessment</span>
+            </button>
+          </div>
+
+          <!-- Filters -->
+          <div class="cases-filter-bar">
+            <input type="text" id="case-search-input" class="standard-input" placeholder="Search cases..." style="width:240px;" oninput="window.EarthApp.filterCases()">
+            
+            <select id="case-filter-status" class="filter-select" onchange="window.EarthApp.filterCases()">
+              <option value="all">Status: All</option>
+              <option value="completed">Completed</option>
+              <option value="processing">Processing</option>
+              <option value="pending">Pending</option>
+            </select>
+
+            <select id="case-filter-type" class="filter-select" onchange="window.EarthApp.filterCases()">
+              <option value="all">Disaster Type: All</option>
+              <option value="Flash Flood">Flash Flood</option>
+              <option value="Landslide">Landslide</option>
+              <option value="Flood">Flood</option>
+              <option value="Cyclone">Cyclone</option>
+            </select>
+
+            <select id="case-filter-state" class="filter-select" onchange="window.EarthApp.filterCases()">
+              <option value="all">State: All</option>
+              <option value="Uttarakhand">Uttarakhand</option>
+              <option value="Sikkim">Sikkim</option>
+              <option value="Assam">Assam</option>
+              <option value="Odisha">Odisha</option>
+              <option value="Himachal">Himachal</option>
+            </select>
+
+            <button class="btn-secondary" style="margin-left:auto;" onclick="window.EarthApp.resetCaseFilters()">Reset Filters</button>
+          </div>
+
+          <!-- Cases Table -->
+          <div class="data-table-container">
+            <table class="app-data-table" id="cases-data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Assessment Title</th>
+                  <th>Disaster Type</th>
+                  <th>State</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="cases-table-body">
+                <!-- Row 1 -->
+                <tr data-id="#1024" data-type="Flash Flood" data-state="Uttarakhand" data-status="completed">
+                  <td style="font-weight:700;color:var(--brand-primary);">#1024</td>
+                  <td style="font-weight:600;">Uttarakhand Rainfall</td>
+                  <td>Flash Flood</td>
+                  <td>Uttarakhand</td>
+                  <td><span class="status-badge completed">Completed</span></td>
+                  <td><span class="priority-badge high">High</span></td>
+                  <td>21/09/2026</td>
+                  <td>
+                    <button class="btn-secondary" style="padding:4px 10px;font-size:12px;" onclick="window.EarthApp.loadCase('#1024')">View</button>
+                  </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr data-id="#1023" data-type="Landslide" data-state="Sikkim" data-status="processing">
+                  <td style="font-weight:700;color:var(--brand-primary);">#1023</td>
+                  <td style="font-weight:600;">Sikkim Landslide</td>
+                  <td>Landslide</td>
+                  <td>Sikkim</td>
+                  <td><span class="status-badge processing">Processing</span></td>
+                  <td><span class="priority-badge med">Medium</span></td>
+                  <td>20/09/2026</td>
+                  <td>
+                    <button class="btn-secondary" style="padding:4px 10px;font-size:12px;" onclick="window.EarthApp.loadCase('#1023')">View</button>
+                  </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr data-id="#1022" data-type="Flood" data-state="Assam" data-status="completed">
+                  <td style="font-weight:700;color:var(--brand-primary);">#1022</td>
+                  <td style="font-weight:600;">Assam Flood</td>
+                  <td>Flood</td>
+                  <td>Assam</td>
+                  <td><span class="status-badge completed">Completed</span></td>
+                  <td><span class="priority-badge high">High</span></td>
+                  <td>20/09/2026</td>
+                  <td>
+                    <button class="btn-secondary" style="padding:4px 10px;font-size:12px;" onclick="window.EarthApp.loadCase('#1022')">View</button>
+                  </td>
+                </tr>
+
+                <!-- Row 4 -->
+                <tr data-id="#1021" data-type="Cyclone" data-state="Odisha" data-status="completed">
+                  <td style="font-weight:700;color:var(--brand-primary);">#1021</td>
+                  <td style="font-weight:600;">Cyclone Tracking</td>
+                  <td>Cyclone</td>
+                  <td>Odisha</td>
+                  <td><span class="status-badge completed">Completed</span></td>
+                  <td><span class="priority-badge high">High</span></td>
+                  <td>19/09/2026</td>
+                  <td>
+                    <button class="btn-secondary" style="padding:4px 10px;font-size:12px;" onclick="window.EarthApp.loadCase('#1021')">View</button>
+                  </td>
+                </tr>
+
+                <!-- Row 5 -->
+                <tr data-id="#1020" data-type="Flash Flood" data-state="Himachal" data-status="completed">
+                  <td style="font-weight:700;color:var(--brand-primary);">#1020</td>
+                  <td style="font-weight:600;">Himachal Assessment</td>
+                  <td>Flash Flood</td>
+                  <td>Himachal</td>
+                  <td><span class="status-badge completed">Completed</span></td>
+                  <td><span class="priority-badge low">Low</span></td>
+                  <td>18/09/2026</td>
+                  <td>
+                    <button class="btn-secondary" style="padding:4px 10px;font-size:12px;" onclick="window.EarthApp.loadCase('#1020')">View</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             SCREEN 10: ANALYTICS & VISUALIZATION
+             ==================================================================== -->
+        <section class="view-section" id="view-analytics">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Analytics</h2>
+              <p>Insights and trends from all geospatial assessments</p>
+            </div>
+            
+            <div style="display:flex;gap:10px;">
+              <select class="filter-select">
+                <option>Date Range: This Month</option>
+                <option>Last 90 Days</option>
+                <option>Monsoon Season 2026</option>
+              </select>
+              <select class="filter-select">
+                <option>Disaster Type: All</option>
+                <option>Flash Flood</option>
+                <option>Landslide</option>
+                <option>Cyclone</option>
+              </select>
+              <select class="filter-select">
+                <option>State: All</option>
+                <option>Uttarakhand</option>
+                <option>Sikkim</option>
+                <option>Assam</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 4 Summary KPI Cards -->
+          <div class="kpi-row">
+            <div class="kpi-card">
+              <span class="kpi-title">Total Assessments</span>
+              <span class="kpi-value">128</span>
+              <span class="kpi-badge success">+12%</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">High Risk Cases</span>
+              <span class="kpi-value" style="color:var(--risk-high);">34</span>
+              <span class="kpi-badge danger">+8%</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">Medium Risk Cases</span>
+              <span class="kpi-value" style="color:var(--risk-med);">52</span>
+              <span class="kpi-badge info">+15%</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">Low Risk Cases</span>
+              <span class="kpi-value" style="color:var(--risk-low);">42</span>
+              <span class="kpi-badge success">+10%</span>
+            </div>
+          </div>
+
+          <!-- Charts Grid -->
+          <div class="analytics-chart-grid">
+            <!-- Line Chart: Risk Trend Over Time -->
+            <div class="chart-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <h3 style="font-size:15px;font-weight:700;color:var(--text-title);">Risk Trend Over Time</h3>
+                  <div style="font-size:12px;color:var(--text-muted);">Historical risk classification frequency over September 2026</div>
+                </div>
+                <div style="display:flex;gap:12px;font-size:11.5px;font-weight:600;">
+                  <span style="color:var(--risk-high);">● High</span>
+                  <span style="color:var(--risk-med);">● Medium</span>
+                  <span style="color:var(--risk-low);">● Low</span>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="canvas-risk-trend" width="540" height="260"></canvas>
+              </div>
+            </div>
+
+            <!-- Donut Chart: Disaster Type Distribution -->
+            <div class="chart-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <h3 style="font-size:15px;font-weight:700;color:var(--text-title);">Disaster Type Distribution</h3>
+                  <div style="font-size:12px;color:var(--text-muted);">Categorical breakdown of natural hazard occurrences</div>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="canvas-disaster-dist" width="400" height="260"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             SCREEN 11: ALERTS & NOTIFICATIONS
+             ==================================================================== -->
+        <section class="view-section" id="view-alerts">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Alerts</h2>
+              <p>Important notifications and early warnings</p>
+            </div>
+            <button class="btn-secondary" onclick="window.EarthApp.showToast('All notifications marked as read')">Mark All as Read</button>
+          </div>
+
+          <!-- Tab Filters -->
+          <div class="alerts-tab-filter">
+            <button class="tab-btn active" onclick="window.EarthApp.filterAlerts(this, 'all')">All Alerts (6)</button>
+            <button class="tab-btn" onclick="window.EarthApp.filterAlerts(this, 'high')">High (3)</button>
+            <button class="tab-btn" onclick="window.EarthApp.filterAlerts(this, 'medium')">Medium (2)</button>
+            <button class="tab-btn" onclick="window.EarthApp.filterAlerts(this, 'low')">Low (1)</button>
+          </div>
+
+          <!-- Alerts Stack -->
+          <div class="alerts-list-stack" id="alerts-container">
+            <!-- Alert 1 -->
+            <div class="alert-row-card" data-severity="high">
+              <div class="alert-main-info">
+                <div class="activity-icon-indicator high">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text-title);">Flash Flood Risk - Uttarakhand</div>
+                  <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Heavy rainfall expected in next 24 hours (Predicted: 320mm). Immediate evacuation advisory.</div>
+                  <div style="font-size:11px;color:var(--text-light);margin-top:4px;">2 minutes ago • Chamoli District EOC</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span class="alert-badge-pill" style="background:#fee2e2;color:#b91c1c;">High</span>
+                <button class="btn-secondary" onclick="window.EarthApp.loadCase('#1024')">View Case</button>
+              </div>
+            </div>
+
+            <!-- Alert 2 -->
+            <div class="alert-row-card" data-severity="high">
+              <div class="alert-main-info">
+                <div class="activity-icon-indicator high">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text-title);">Landslide Alert - Sikkim</div>
+                  <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Increased landslide probability detected via SAR interferometry and ground slope monitoring.</div>
+                  <div style="font-size:11px;color:var(--text-light);margin-top:4px;">15 minutes ago • North Sikkim</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span class="alert-badge-pill" style="background:#fee2e2;color:#b91c1c;">High</span>
+                <button class="btn-secondary" onclick="window.EarthApp.loadCase('#1023')">View Case</button>
+              </div>
+            </div>
+
+            <!-- Alert 3 -->
+            <div class="alert-row-card" data-severity="medium">
+              <div class="alert-main-info">
+                <div class="activity-icon-indicator med">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text-title);">Heavy Rainfall - Assam</div>
+                  <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Continuous rainfall expected over upper Brahmaputra reach. River levels approaching warning marks.</div>
+                  <div style="font-size:11px;color:var(--text-light);margin-top:4px;">30 minutes ago • Guwahati Command</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span class="alert-badge-pill" style="background:#fef3c7;color:#b45309;">Medium</span>
+                <button class="btn-secondary" onclick="window.EarthApp.loadCase('#1022')">View Case</button>
+              </div>
+            </div>
+
+            <!-- Alert 4 -->
+            <div class="alert-row-card" data-severity="medium">
+              <div class="alert-main-info">
+                <div class="activity-icon-indicator med">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text-title);">Cyclone Tracking - Bay of Bengal</div>
+                  <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Cyclone movement towards northern Odisha coast. Wind gusts up to 85 km/h.</div>
+                  <div style="font-size:11px;color:var(--text-light);margin-top:4px;">1 hour ago • IMD Radar Feed</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span class="alert-badge-pill" style="background:#fef3c7;color:#b45309;">Medium</span>
+                <button class="btn-secondary" onclick="window.EarthApp.loadCase('#1021')">View Case</button>
+              </div>
+            </div>
+
+            <!-- Alert 5 -->
+            <div class="alert-row-card" data-severity="low">
+              <div class="alert-main-info">
+                <div class="activity-icon-indicator low">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text-title);">River Water Level - Bihar</div>
+                  <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Water level slightly above seasonal warning mark. Discharge stabilized.</div>
+                  <div style="font-size:11px;color:var(--text-light);margin-top:4px;">2 hours ago • Patna Hydrology Desk</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span class="alert-badge-pill" style="background:#d1fae5;color:#047857;">Low</span>
+                <button class="btn-secondary" onclick="window.EarthApp.loadCase('#1020')">View Case</button>
+              </div>
+            </div>
+
+            <!-- Alert 6 -->
+            <div class="alert-row-card" data-severity="high">
+              <div class="alert-main-info">
+                <div class="activity-icon-indicator high">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text-title);">Dam Runoff Surge - Tehri Basin</div>
+                  <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Inflow rate elevated by 35% following upstream cloudburst. Spillway alert issued.</div>
+                  <div style="font-size:11px;color:var(--text-light);margin-top:4px;">3 hours ago • Tehri Control Room</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span class="alert-badge-pill" style="background:#fee2e2;color:#b91c1c;">High</span>
+                <button class="btn-secondary" onclick="window.EarthApp.loadCase('#1024')">View Case</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             SCREEN 12: GENERATED REPORT PREVIEW
+             ==================================================================== -->
+        <section class="view-section" id="view-reports">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Generated Report</h2>
+              <p>Assessment report for Uttarakhand Rainfall Risk Assessment</p>
+            </div>
+            
+            <div class="report-action-bar">
+              <button class="btn-primary" style="width:auto;" onclick="window.print()">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Download PDF</span>
+              </button>
+              <button class="btn-secondary" onclick="window.EarthApp.shareReport()">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                <span>Share</span>
+              </button>
+              <button class="btn-secondary" onclick="window.print()">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                <span>Print</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Report Document Sheet -->
+          <div class="report-document-sheet" id="printable-report">
+            <div class="report-official-header">
+              <div class="report-brand-title">
+                <div class="sidebar-logo-icon" style="width:36px;height:36px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/></svg>
+                </div>
+                <div>
+                  <h2>Earth-Semantic</h2>
+                  <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Disaster Risk Assessment Report</div>
+                </div>
+              </div>
+
+              <div class="report-doc-ref">
+                <div style="font-weight:700;color:var(--text-title);">REF: ES-2026-09-1024</div>
+                <div>Classification: OFFICIAL / EMERGENCY</div>
+                <div>Generated: 21/09/2026 • 14:35 IST</div>
+              </div>
+            </div>
+
+            <!-- Metadata Table -->
+            <table class="report-meta-table">
+              <tr>
+                <td class="report-meta-label">Assessment ID</td>
+                <td class="report-meta-value">#1024</td>
+                <td class="report-meta-label">Disaster Type</td>
+                <td class="report-meta-value">Flash Flood</td>
+              </tr>
+              <tr>
+                <td class="report-meta-label">Assessment Title</td>
+                <td class="report-meta-value" colspan="3">Uttarakhand Rainfall Risk Assessment</td>
+              </tr>
+              <tr>
+                <td class="report-meta-label">Geographic Region</td>
+                <td class="report-meta-value">Chamoli & Rudraprayag, Uttarakhand</td>
+                <td class="report-meta-label">Coordinates</td>
+                <td class="report-meta-value">30.38° N, 79.32° E</td>
+              </tr>
+              <tr>
+                <td class="report-meta-label">Risk Classification</td>
+                <td class="report-meta-value">
+                  <span class="priority-badge high">HIGH RISK</span>
+                </td>
+                <td class="report-meta-label">AI Confidence Score</td>
+                <td class="report-meta-value" style="font-weight:800;color:#059669;">87.4% (Multi-Sensor Validated)</td>
+              </tr>
+            </table>
+
+            <!-- Embedded Heatmap Visual -->
+            <div style="margin-bottom:24px;">
+              <h4 style="font-size:13.5px;font-weight:700;margin-bottom:8px;color:var(--text-title);">Figure 1.0: AI-Predicted Inundation & Terrain Risk Heatmap</h4>
+              <div style="border-radius:var(--radius-sm);overflow:hidden;border:1px solid #cbd5e1;max-height:300px;">
+                <img src="assets/flood_risk_heatmap.jpg" style="width:100%;height:300px;object-fit:cover;" alt="Report Heatmap">
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Topographic overlay generated from Sentinel-2 + ALOS PALSAR radar change analysis. Inundation buffer: 10km radius.</div>
+            </div>
+
+            <!-- Key Findings Breakdown -->
+            <div style="margin-bottom:24px;">
+              <h4 style="font-size:13.5px;font-weight:700;margin-bottom:8px;color:var(--text-title);">Key Analytical Findings</h4>
+              <ul style="padding-left:20px;font-size:12.5px;color:var(--text-main);line-height:1.7;">
+                <li><strong>Extreme Precipitation Influx:</strong> Meteorological forecasting predicts 320mm rainfall over the next 48 hours in the upper watershed.</li>
+                <li><strong>Critical Gauge Exceedance:</strong> Alaknanda river gauge registered water levels +2.4m above the established danger threshold at Devprayag junction.</li>
+                <li><strong>Soil Saturation Hazard:</strong> Soil moisture saturation index reached 91%, creating immediate probability of debris flows and slope shear failures.</li>
+                <li><strong>Gorge Drainage Bottlenecks:</strong> Morphological narrowing along the Chamoli ravine restricts natural discharge throughput, compounding flash inundation risk.</li>
+              </ul>
+            </div>
+
+            <!-- Action Directives -->
+            <div style="margin-bottom:28px;">
+              <h4 style="font-size:13.5px;font-weight:700;margin-bottom:8px;color:var(--text-title);">Mandatory Response Directives</h4>
+              <table class="recommendations-table" style="font-size:12px;">
+                <thead>
+                  <tr>
+                    <th>Directive</th>
+                    <th>Designated Authority</th>
+                    <th>Target Deadline</th>
+                    <th>Current Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Issue early warnings</strong> to local administration and emergency teams</td>
+                    <td>District Magistrate, Chamoli</td>
+                    <td>Immediate</td>
+                    <td><span class="status-badge pending">Pending</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Broadcast SMS early warnings</strong> to downstream populations</td>
+                    <td>Disaster Management Authority</td>
+                    <td>Within 2 hours</td>
+                    <td><span class="status-badge processing">In Progress</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Mobilize emergency evacuation</strong> safe zone staging centers</td>
+                    <td>NDRF Battalion 8</td>
+                    <td>22/09/2026</td>
+                    <td><span class="status-badge completed">Ready</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Continuous sensor monitoring</strong> of Tehri and upstream reservoirs</td>
+                    <td>Central Water Commission</td>
+                    <td>Continuous</td>
+                    <td><span class="status-badge completed">Active</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Sign-off & Verification -->
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1px dashed #cbd5e1;padding-top:20px;margin-top:20px;">
+              <div style="font-size:11.5px;color:var(--text-muted);line-height:1.4;">
+                <div>Certified by Earth-Semantic AI Geospatial Engine</div>
+                <div>Multimodal Model Architecture v2.4</div>
+                <div>Hash: <code>9f88c7a6e112d809b</code></div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:700;font-size:13px;color:#0f172a;">Dr. A. K. Sharma</div>
+                <div style="font-size:11px;color:var(--text-muted);">Chief Disaster Intelligence Officer, SDMA</div>
+                <div style="font-size:11px;color:var(--brand-primary);font-weight:600;margin-top:4px;">[ Digitally Signed & Authenticated ]</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             ADDITIONAL VIEWS: USERS & SETTINGS
+             ==================================================================== -->
+        <section class="view-section" id="view-users">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>User Management</h2>
+              <p>Role-based access control and agency team members</p>
+            </div>
+            <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.showToast('Invite member modal triggered')">+ Invite Member</button>
+          </div>
+
+          <div class="data-table-container">
+            <table class="app-data-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Agency / Organization</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Last Active</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;">Admin Officer</td>
+                  <td>Uttarakhand SDMA</td>
+                  <td><span class="priority-badge high">Super Admin</span></td>
+                  <td><span class="status-badge completed">Online</span></td>
+                  <td>Just now</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;">Col. Rajesh Verma</td>
+                  <td>NDRF Battalion 8</td>
+                  <td><span class="priority-badge med">Field Commander</span></td>
+                  <td><span class="status-badge completed">Online</span></td>
+                  <td>12m ago</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;">Priya Sen, PhD</td>
+                  <td>ISRO Remote Sensing Cell</td>
+                  <td><span class="priority-badge low">Senior GIS Analyst</span></td>
+                  <td><span class="status-badge processing">In Assessment</span></td>
+                  <td>1h ago</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;">District Magistrate EOC</td>
+                  <td>Chamoli Administration</td>
+                  <td><span class="priority-badge low">Operational Authority</span></td>
+                  <td><span class="status-badge completed">Active</span></td>
+                  <td>4h ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view-section" id="view-settings">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>System Settings & Model Configuration</h2>
+              <p>Configure offline inference parameters, satellite feeds, and threshold levels</p>
+            </div>
+          </div>
+
+          <div class="card-panel" style="max-width:800px;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:14px;">Inference & Local Model Engine</h3>
+            
+            <div class="form-group">
+              <label>AI Backbone Model</label>
+              <select class="standard-input">
+                <option selected>Earth-Semantic Multimodal Geo-Transformer (Offline ONNX Runtime)</option>
+                <option>Sentinel-2 Multispectral FloodNet (Quantized INT8)</option>
+                <option>SAR InSAR Slope Deformation Model v3</option>
+              </select>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>Confidence Threshold</label>
+                <input type="text" class="standard-input" value="75% (Minimum for High Risk Trigger)">
+              </div>
+              <div class="form-group">
+                <label>Satellite Temporal Step (Days)</label>
+                <input type="text" class="standard-input" value="5 Days (Sentinel-2 Revisit Cycle)">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Local Geo-Vector Storage Path</label>
+              <input type="text" class="standard-input" value="C:\EarthSemantic\vector_index\faiss_index.bin">
+            </div>
+
+            <button class="btn-primary" style="width:fit-content;margin-top:10px;" onclick="window.EarthApp.showToast('System configuration saved successfully')">Save Settings</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Detailed Analysis Modal -->
+  <div id="modal-detailed-analysis" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.6);z-index:99999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+    <div style="background:var(--bg-card);border-radius:var(--radius-md);max-width:650px;width:90%;padding:28px;box-shadow:var(--shadow-lg);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border-color);padding-bottom:10px;">
+        <h3 style="font-size:18px;font-weight:800;color:var(--text-title);">Detailed Model Diagnostics & Confusion Matrix</h3>
+        <button style="background:none;border:none;cursor:pointer;color:var(--text-muted);" onclick="window.EarthApp.closeDetailedModal()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div style="font-size:13px;color:var(--text-main);line-height:1.6;margin-bottom:18px;">
+        <p><strong>Model Architecture:</strong> Multimodal Vision-Language Remote Sensing Network (ViT-L/14 + SAR-UNet Dual Encoder).</p>
+        <p><strong>Training Provenance:</strong> Validated across 2,400 Himalayan monsoon flood incidents (2013–2025).</p>
+        
+        <table class="recommendations-table" style="margin-top:14px;font-size:12px;">
+          <thead>
+            <tr>
+              <th>Hazard Metric</th>
+              <th>Predicted Value</th>
+              <th>Benchmark Baseline</th>
+              <th>Risk Severity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Inundation Probability</td>
+              <td><strong>87.4%</strong></td>
+              <td>12.0%</td>
+              <td><span class="priority-badge high">Critical</span></td>
+            </tr>
+            <tr>
+              <td>Catchment Runoff Rate</td>
+              <td><strong>4,850 m³/s</strong></td>
+              <td>1,200 m³/s</td>
+              <td><span class="priority-badge high">Severe Surge</span></td>
+            </tr>
+            <tr>
+              <td>False Alarm Suppression Score</td>
+              <td><strong>94.2%</strong> (Filtered vegetation & cloud shadow)</td>
+              <td>80.0%</td>
+              <td><span class="priority-badge low">High Reliability</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align:right;">
+        <button class="btn-primary" style="width:auto;" onclick="window.EarthApp.closeDetailedModal()">Close Diagnostics</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
