@@ -17,6 +17,77 @@
     audioCtx: null,
     apiBase: '', // Same origin
     currentAnalysisResult: null,
+    
+    // Capability 2.2 Data Stores
+    indexedTilesCount: 4820,
+    activeChangeScenario: 'construction',
+    activeClusterId: 1,
+    activeQueueId: 'REV-801',
+    isWipeDragging: false,
+
+    reviewQueue: [
+      {
+        id: 'REV-801',
+        title: 'Newly Built River Structures',
+        sector: 'Chamoli Valley, Alaknanda Reach',
+        coords: '30.3842° N, 79.3267° E',
+        priority: 'high',
+        changeType: 'Newly Built Structures (Construction)',
+        confidence: 94.8,
+        status: 'Pending Review',
+        date: '13 Mar 2026',
+        sceneT1: 'S2A_MSIL2A_20260112T051831_N0500_R019_T44RLV',
+        sceneT2: 'S2B_MSIL2A_20260313T052219_N0500_R019_T44RLV',
+        earliestObs: '11 Feb 2026',
+        desc: 'Rapid appearance of 3 rectangular concrete foundations within 45m of active riverbank line.'
+      },
+      {
+        id: 'REV-802',
+        title: 'Large Vehicle Staging on Open Ground',
+        sector: 'Thar Open Ground Corridor',
+        coords: '27.0214° N, 71.9125° E',
+        priority: 'high',
+        changeType: 'Vehicle Concentration Appearance',
+        confidence: 92.4,
+        status: 'Pending Review',
+        date: '12 Mar 2026',
+        sceneT1: 'S2A_MSIL2A_20260124T052011_N0500_R062_T43RER',
+        sceneT2: 'S2B_MSIL2A_20260312T052144_N0500_R062_T43RER',
+        earliestObs: '19 Feb 2026',
+        desc: 'Cluster of 34 high-reflectance vehicle formations organized in linear convoy arrays on bare soil.'
+      },
+      {
+        id: 'REV-803',
+        title: 'Forest Canopy Loss & Access Track Cut',
+        sector: 'North Ridge Himalayan Slope',
+        coords: '30.4218° N, 79.2891° E',
+        priority: 'med',
+        changeType: 'Clearance & Road Development',
+        confidence: 87.2,
+        status: 'Pending Review',
+        date: '08 Mar 2026',
+        sceneT1: 'LC09_L2SP_146039_20260108_20260116_02_T1',
+        sceneT2: 'LC09_L2SP_146039_20260308_20260316_02_T1',
+        earliestObs: '06 Feb 2026',
+        desc: 'Linear strip of vegetation depletion accompanied by freshly graded unpaved access cut.'
+      },
+      {
+        id: 'REV-804',
+        title: 'Reservoir Margin Siltation & Water Retreat',
+        sector: 'Tehri Dam Catchment Reach',
+        coords: '30.3789° N, 78.4812° E',
+        priority: 'low',
+        changeType: 'Water-Extent Variation',
+        confidence: 78.5,
+        status: 'Pending Review',
+        date: '02 Mar 2026',
+        sceneT1: 'S1A_IW_GRDH_1SDV_20260116T004522...',
+        sceneT2: 'S1A_IW_GRDH_1SDV_20260302T004523...',
+        earliestObs: '16 Jan 2026',
+        desc: 'Waterline contraction exposing 18 hectares of dried alluvial siltation flats.'
+      }
+    ],
+
     cases: [
       { id: '#1024', title: 'Uttarakhand Rainfall', type: 'Flash Flood', state: 'Uttarakhand', status: 'completed', priority: 'high', date: '21/09/2026' },
       { id: '#1023', title: 'Sikkim Landslide', type: 'Landslide', state: 'Sikkim', status: 'processing', priority: 'med', date: '20/09/2026' },
@@ -43,6 +114,9 @@
       this.animateKpiCounters();
       this.renderCasesTable();
       this.renderAlertsStack();
+      
+      // Initialize Challenge 2.2 Capabilities
+      this.initCapabilities();
 
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('demo')) {
@@ -1094,9 +1168,667 @@
       }
 
       nextTourStep();
+    },
+
+    // =========================================================================
+    // CHALLENGE 2.2 CAPABILITIES IMPLEMENTATION
+    // =========================================================================
+
+    initCapabilities: function () {
+      this.initSemanticRetrieval();
+      this.initWipeSlider();
+      this.initClustering();
+      this.initAnalystQueue();
+      this.initIngestionHub();
+    },
+
+    // -------------------------------------------------------------------------
+    // 2.2.1 Semantic and Multimodal Retrieval
+    // -------------------------------------------------------------------------
+    initSemanticRetrieval: function () {
+      const input = document.getElementById('semantic-search-input');
+      if (input) {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            this.executeSemanticSearch();
+          }
+        });
+      }
+      this.executeSemanticSearch('newly built structures near a river');
+    },
+
+    applyPromptPill: function (promptText, btnEl) {
+      this.playUiClick();
+      const input = document.getElementById('semantic-search-input');
+      if (input) input.value = promptText;
+      
+      document.querySelectorAll('.prompt-pills-row .prompt-pill').forEach(p => p.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      this.executeSemanticSearch(promptText);
+    },
+
+    simulateImageQuery: function () {
+      this.playUiClick();
+      this.showToast('Reference tile loaded: EarthSemantic-ViT extracting 512-D visual embedding...');
+      const input = document.getElementById('semantic-search-input');
+      if (input) input.value = '[Image-to-Image Query: Tile_T44RLV_20260313_B8A.cog]';
+      this.executeSemanticSearch('image-to-image');
+    },
+
+    executeSemanticSearch: function (overrideQuery) {
+      this.playUiClick();
+      const queryInput = document.getElementById('semantic-search-input');
+      const query = (overrideQuery || (queryInput ? queryInput.value : '')).toLowerCase().trim();
+
+      const statusEl = document.getElementById('search-status-text');
+      const latencyEl = document.getElementById('search-latency-stat');
+      if (statusEl) statusEl.innerText = 'Extracting query embedding & searching FAISS HNSW graph...';
+
+      setTimeout(() => {
+        const results = this.generateSemanticMatches(query);
+        this.renderSemanticResults(results, query);
+        if (statusEl) statusEl.innerText = `Vector Search Complete: ${results.length} Rank-Ordered Candidates`;
+        if (latencyEl) latencyEl.innerText = `${(1.2 + Math.random() * 0.5).toFixed(1)} ms`;
+        this.playSuccessChime();
+      }, 240);
+    },
+
+    generateSemanticMatches: function (query) {
+      const isVehicle = query.includes('vehicle') || query.includes('truck') || query.includes('convoy');
+      const isClearance = query.includes('forest') || query.includes('clear') || query.includes('tree') || query.includes('track');
+      const isWater = query.includes('water') || query.includes('reservoir') || query.includes('river') || query.includes('lake');
+      const isImage = query.includes('image-to-image');
+
+      if (isVehicle) {
+        return [
+          { rank: 1, title: 'Thar Open Ground Sector 12B', sim: 95.8, coords: '27.021°N, 71.912°E', date: '12 Mar 2026', sensor: 'Sentinel-2B (10m)', cloud: '0.0%', theme: 'vehicle', changeType: 'Vehicle Staging' },
+          { rank: 2, title: 'Barmer Logistics Field Array', sim: 93.4, coords: '25.752°N, 71.398°E', date: '11 Mar 2026', sensor: 'Cartosat-3 (0.28m)', cloud: '1.2%', theme: 'vehicle', changeType: 'Vehicle Staging' },
+          { rank: 3, title: 'Pokhran Transit Staging Ground', sim: 91.0, coords: '26.918°N, 71.884°E', date: '09 Mar 2026', sensor: 'Sentinel-1 SAR', cloud: 'All-Weather', theme: 'vehicle', changeType: 'Machinery Gathering' },
+          { rank: 4, title: 'Jaisalmer Northern Corridor Site', sim: 88.6, coords: '26.980°N, 71.210°E', date: '08 Mar 2026', sensor: 'Landsat-9 OLI', cloud: '2.4%', theme: 'vehicle', changeType: 'Vehicle Concentration' }
+        ];
+      } else if (isClearance) {
+        return [
+          { rank: 1, title: 'North Ridge Slope Clearance 4A', sim: 94.6, coords: '30.421°N, 79.289°E', date: '08 Mar 2026', sensor: 'Landsat-9 (30m)', cloud: '3.1%', theme: 'clearance', changeType: 'Canopy Loss & Track' },
+          { rank: 2, title: 'Gorge Pass Timber Corridor', sim: 92.1, coords: '30.395°N, 79.310°E', date: '06 Mar 2026', sensor: 'Sentinel-2A (10m)', cloud: '4.5%', theme: 'clearance', changeType: 'Forest Clearing' },
+          { rank: 3, title: 'Upper Valley Graded Cut Sector', sim: 89.4, coords: '30.448°N, 79.255°E', date: '02 Mar 2026', sensor: 'Sentinel-1 SAR', cloud: '0.0%', theme: 'clearance', changeType: 'Linear Track Cut' }
+        ];
+      } else if (isWater) {
+        return [
+          { rank: 1, title: 'Alaknanda Riverbank Sector 4B', sim: 95.4, coords: '30.384°N, 79.326°E', date: '13 Mar 2026', sensor: 'Sentinel-2B (10m)', cloud: '2.1%', theme: 'river_struct', changeType: 'River Structures' },
+          { rank: 2, title: 'Tehri Inundation Delta 2', sim: 93.8, coords: '30.378°N, 78.481°E', date: '10 Mar 2026', sensor: 'Sentinel-2B (10m)', cloud: '1.8%', theme: 'water', changeType: 'Reservoir Contraction' },
+          { rank: 3, title: 'Rudraprayag Confluence Bank', sim: 91.5, coords: '30.285°N, 78.980°E', date: '09 Mar 2026', sensor: 'Sentinel-1 SAR', cloud: 'All-Weather', theme: 'river_struct', changeType: 'Pier Construction' },
+          { rank: 4, title: 'Bhagirathi Embankment Zone', sim: 89.2, coords: '30.412°N, 78.520°E', date: '07 Mar 2026', sensor: 'Landsat-9 OLI', cloud: '5.2%', theme: 'river_struct', changeType: 'Foundation Footprint' }
+        ];
+      } else if (isImage) {
+        return [
+          { rank: 1, title: 'Query Tile Visual Match (Direct Co-occurrence)', sim: 96.8, coords: '30.384°N, 79.326°E', date: '13 Mar 2026', sensor: 'Sentinel-2B (10m)', cloud: '2.1%', theme: 'river_struct', changeType: 'Construction' },
+          { rank: 2, title: 'Neighboring River Reach Pier Site', sim: 94.2, coords: '30.389°N, 79.331°E', date: '13 Mar 2026', sensor: 'Sentinel-2B (10m)', cloud: '2.1%', theme: 'river_struct', changeType: 'Construction' },
+          { rank: 3, title: 'Downstream Riparian Concrete Pad', sim: 91.7, coords: '30.370°N, 79.315°E', date: '08 Mar 2026', sensor: 'Cartosat-3 (0.28m)', cloud: '0.0%', theme: 'river_struct', changeType: 'Structure' }
+        ];
+      } else {
+        // Default: Problem statement's "newly built structures near a river"
+        return [
+          { rank: 1, title: 'Alaknanda Riverbank Sector 4B', sim: 95.4, coords: '30.384°N, 79.326°E', date: '13 Mar 2026', sensor: 'Sentinel-2B (10m)', cloud: '2.1%', theme: 'river_struct', changeType: 'Newly Built Structures' },
+          { rank: 2, title: 'Chamoli Confluence Construction Reach', sim: 93.1, coords: '30.392°N, 79.340°E', date: '11 Mar 2026', sensor: 'Sentinel-2B (10m)', cloud: '1.4%', theme: 'river_struct', changeType: 'Concrete Foundation' },
+          { rank: 3, title: 'Brahmaputra Riparian Infrastructure Pad', sim: 91.8, coords: '26.195°N, 91.782°E', date: '09 Mar 2026', sensor: 'Cartosat-3 (0.28m)', cloud: '0.8%', theme: 'river_struct', changeType: 'Embankment Pier' },
+          { rank: 4, title: 'Tehri Valley Access & Structural Zone', sim: 89.2, coords: '30.378°N, 78.481°E', date: '07 Mar 2026', sensor: 'Landsat-9 OLI', cloud: '4.2%', theme: 'river_struct', changeType: 'Building Footprint' },
+          { rank: 5, title: 'Rudraprayag Embankment Works', sim: 87.5, coords: '30.285°N, 78.980°E', date: '04 Mar 2026', sensor: 'Sentinel-1 SAR', cloud: 'All-Weather', theme: 'river_struct', changeType: 'River Works' }
+        ];
+      }
+    },
+
+    getProceduralTileSvg: function (theme) {
+      if (theme === 'vehicle') {
+        return `<svg width="100%" height="100%" viewBox="0 0 280 180" style="background:#4a3728;">
+          <rect width="280" height="180" fill="#6d543e"/>
+          <!-- Road/dirt track -->
+          <path d="M0,90 L280,90" stroke="#8c6f54" stroke-width="24"/>
+          <!-- Vehicles in linear arrays -->
+          <g fill="#f8fafc" stroke="#1e293b" stroke-width="1.5">
+            <rect x="30" y="55" width="22" height="12" rx="2"/><rect x="60" y="55" width="22" height="12" rx="2"/>
+            <rect x="90" y="55" width="22" height="12" rx="2"/><rect x="120" y="55" width="22" height="12" rx="2"/>
+            <rect x="150" y="55" width="22" height="12" rx="2"/><rect x="180" y="55" width="22" height="12" rx="2"/>
+            <rect x="30" y="115" width="22" height="12" rx="2"/><rect x="60" y="115" width="22" height="12" rx="2"/>
+            <rect x="90" y="115" width="22" height="12" rx="2"/><rect x="120" y="115" width="22" height="12" rx="2"/>
+          </g>
+          <text x="14" y="30" fill="#fde68a" font-size="11" font-weight="800">VEHICLE CONVOY DETECTED</text>
+        </svg>`;
+      } else if (theme === 'clearance') {
+        return `<svg width="100%" height="100%" viewBox="0 0 280 180" style="background:#133827;">
+          <!-- Dense canopy -->
+          <rect width="280" height="180" fill="#184e36"/>
+          <!-- Diagonal cleared swath -->
+          <path d="M-20,160 L240,-20 L280,-20 L20,180 Z" fill="#785a3a"/>
+          <path d="M-10,165 L250,-15" stroke="#a38260" stroke-width="4" stroke-dasharray="8 6"/>
+          <text x="14" y="30" fill="#fca5a5" font-size="11" font-weight="800">CANOPY LOSS & TRACK</text>
+        </svg>`;
+      } else if (theme === 'water') {
+        return `<svg width="100%" height="100%" viewBox="0 0 280 180" style="background:#1b4d3e;">
+          <!-- Exposed mudflat margin -->
+          <path d="M0,0 Q140,80 180,180 L0,180 Z" fill="#8c7853"/>
+          <!-- Retreated water body -->
+          <path d="M0,0 Q110,60 130,180 L0,180 Z" fill="#0284c7"/>
+          <text x="14" y="30" fill="#bae6fd" font-size="11" font-weight="800">SHORELINE RETREAT (-18 HA)</text>
+        </svg>`;
+      } else {
+        // River with structures
+        return `<svg width="100%" height="100%" viewBox="0 0 280 180" style="background:#164e3f;">
+          <!-- River corridor -->
+          <path d="M-20,110 Q140,50 300,120 L300,160 Q140,90 -20,150 Z" fill="#0284c7"/>
+          <!-- Concrete pads & structures -->
+          <rect x="70" y="40" width="40" height="26" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.5" rx="2"/>
+          <rect x="125" y="35" width="55" height="32" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" rx="2"/>
+          <rect x="195" y="45" width="35" height="24" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.5" rx="2"/>
+          <line x1="150" y1="67" x2="150" y2="105" stroke="#64748b" stroke-width="6"/>
+          <text x="14" y="25" fill="#a7f3d0" font-size="11" font-weight="800">NEW RIVER STRUCTURES</text>
+        </svg>`;
+      }
+    },
+
+    renderSemanticResults: function (items, query) {
+      const container = document.getElementById('ranked-results-container');
+      if (!container) return;
+
+      container.innerHTML = items.map(item => `
+        <div class="ranked-tile-card">
+          <div class="ranked-tile-media">
+            ${this.getProceduralTileSvg(item.theme)}
+            <div class="rank-index-badge">#${item.rank}</div>
+            <div class="sim-score-badge">${item.sim}% Match</div>
+          </div>
+          <div class="ranked-tile-body">
+            <div class="ranked-tile-title">${item.title}</div>
+            <div class="ranked-meta-list">
+              <div class="ranked-meta-item"><span>Coordinates:</span> <strong>${item.coords}</strong></div>
+              <div class="ranked-meta-item"><span>Platform:</span> <strong>${item.sensor}</strong></div>
+              <div class="ranked-meta-item"><span>Acquisition:</span> <strong>${item.date}</strong></div>
+              <div class="ranked-meta-item"><span>Cloud Quality:</span> <strong>${item.cloud}</strong></div>
+            </div>
+            <div class="ranked-card-actions">
+              <button class="btn-card-action" onclick="window.EarthApp.inspectInChange('${item.theme}')">Inspect Changes</button>
+              <button class="btn-card-action" onclick="window.EarthApp.navigateTo('clustering')">Cluster Peers</button>
+              <button class="btn-card-action" onclick="window.EarthApp.pushCandidateToReview('${item.title}', '${item.coords}', '${item.sim}')">+ Queue</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    },
+
+    inspectInChange: function (theme) {
+      this.playUiClick();
+      const themeMap = {
+        'river_struct': 'construction',
+        'vehicle': 'vehicles',
+        'clearance': 'clearance',
+        'water': 'water'
+      };
+      const key = themeMap[theme] || 'construction';
+      this.navigateTo('change-analysis');
+      setTimeout(() => {
+        const btn = document.querySelector(`.prompt-pills-row button[onclick*="${key}"]`);
+        this.loadChangeScenario(key, btn);
+      }, 100);
+    },
+
+    pushCandidateToReview: function (title, coords, sim) {
+      this.playSuccessChime();
+      const newId = `REV-${805 + AppState.reviewQueue.length - 4}`;
+      const candidate = {
+        id: newId,
+        title: title,
+        sector: 'Target AOI Reach',
+        coords: coords,
+        priority: 'high',
+        changeType: 'Semantic Match Event',
+        confidence: parseFloat(sim),
+        status: 'Pending Review',
+        date: '13 Mar 2026',
+        sceneT1: 'S2A_MSIL2A_20260112T...',
+        sceneT2: 'S2B_MSIL2A_20260313T...',
+        earliestObs: '11 Feb 2026',
+        desc: `High similarity candidate (${sim}%) dispatched from semantic retrieval.`
+      };
+      AppState.reviewQueue.unshift(candidate);
+      this.renderQueueItems();
+      this.showToast(`Candidate ${newId} dispatched to Analyst Review Queue`);
+      const queueBadge = document.getElementById('sidebar-queue-badge');
+      if (queueBadge) queueBadge.innerText = AppState.reviewQueue.filter(q => q.status === 'Pending Review').length;
+    },
+
+    // -------------------------------------------------------------------------
+    // 2.2.2 & 2.2.3 Multi-Temporal Change & False-Alarm Wipe Slider
+    // -------------------------------------------------------------------------
+    initWipeSlider: function () {
+      const container = document.getElementById('wipe-container');
+      const handle = document.getElementById('wipe-handle');
+      const overlay = document.getElementById('wipe-overlay-after');
+      if (!container || !handle || !overlay) return;
+
+      const updateSlider = (clientX) => {
+        const rect = container.getBoundingClientRect();
+        let posX = clientX - rect.left;
+        if (posX < 0) posX = 0;
+        if (posX > rect.width) posX = rect.width;
+        const pct = (posX / rect.width) * 100;
+
+        overlay.style.width = `${pct}%`;
+        handle.style.left = `${pct}%`;
+      };
+
+      const onPointerMove = (e) => {
+        if (!AppState.isWipeDragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        updateSlider(clientX);
+      };
+
+      const onPointerUp = () => {
+        AppState.isWipeDragging = false;
+        window.removeEventListener('mousemove', onPointerMove);
+        window.removeEventListener('mouseup', onPointerUp);
+        window.removeEventListener('touchmove', onPointerMove);
+        window.removeEventListener('touchend', onPointerUp);
+      };
+
+      const onPointerDown = (e) => {
+        AppState.isWipeDragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        updateSlider(clientX);
+        window.addEventListener('mousemove', onPointerMove);
+        window.addEventListener('mouseup', onPointerUp);
+        window.addEventListener('touchmove', onPointerMove);
+        window.addEventListener('touchend', onPointerUp);
+      };
+
+      handle.addEventListener('mousedown', onPointerDown);
+      handle.addEventListener('touchstart', onPointerDown);
+      container.addEventListener('click', (e) => updateSlider(e.clientX));
+    },
+
+    loadChangeScenario: function (scenarioKey, btnEl) {
+      this.playUiClick();
+      AppState.activeChangeScenario = scenarioKey;
+
+      document.querySelectorAll('#view-change-analysis .prompt-pills-row .prompt-pill').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      const titleEl = document.getElementById('wipe-scenario-title');
+      const typeBadge = document.getElementById('badge-change-type');
+      const obsBadge = document.getElementById('badge-earliest-obs');
+
+      if (scenarioKey === 'clearance') {
+        if (titleEl) titleEl.innerText = 'Bi-Temporal Inspection: Upper Valley Slope [30.421°N, 79.289°E]';
+        if (typeBadge) { typeBadge.innerText = 'Forest Canopy Clearance & Access Road'; typeBadge.className = 'nav-badge red'; }
+        if (obsBadge) obsBadge.innerText = 'Earliest Obs: 06 Feb 2026';
+        this.showToast('Loaded Scenario B: Canopy Loss & Track Cut (Earliest: 06 Feb 2026)');
+      } else if (scenarioKey === 'vehicles') {
+        if (titleEl) titleEl.innerText = 'Bi-Temporal Inspection: Thar Open Ground [27.021°N, 71.912°E]';
+        if (typeBadge) { typeBadge.innerText = 'Large Vehicle Staging on Open Ground'; typeBadge.className = 'nav-badge gold'; }
+        if (obsBadge) obsBadge.innerText = 'Earliest Obs: 19 Feb 2026';
+        this.showToast('Loaded Scenario C: Vehicle Formation Appearance (Earliest: 19 Feb 2026)');
+      } else if (scenarioKey === 'water') {
+        if (titleEl) titleEl.innerText = 'Bi-Temporal Inspection: Tehri Reservoir Basin [30.378°N, 78.481°E]';
+        if (typeBadge) { typeBadge.innerText = 'Reservoir Water-Extent Contraction'; typeBadge.className = 'nav-badge blue'; }
+        if (obsBadge) obsBadge.innerText = 'Earliest Obs: 16 Jan 2026';
+        this.showToast('Loaded Scenario D: Waterline Contraction (Earliest: 16 Jan 2026)');
+      } else {
+        if (titleEl) titleEl.innerText = 'Bi-Temporal Inspection: Alaknanda River Sector [30.384°N, 79.326°E]';
+        if (typeBadge) { typeBadge.innerText = 'Newly Built Structures (Construction)'; typeBadge.className = 'nav-badge red'; }
+        if (obsBadge) obsBadge.innerText = 'Earliest Obs: 11 Feb 2026';
+        this.showToast('Loaded Scenario A: Newly Built Structures Near River (Earliest: 11 Feb 2026)');
+      }
+    },
+
+    scrubTimeline: function (nodeIdx) {
+      this.playUiClick();
+      const nodes = document.querySelectorAll('.timeline-track .timeline-node');
+      nodes.forEach((n, idx) => {
+        if (idx === nodeIdx) {
+          n.classList.add('active');
+        } else {
+          n.classList.remove('active');
+        }
+      });
+
+      const dates = ['12 Jan 2026', '27 Jan 2026', '11 Feb 2026', '26 Feb 2026', '13 Mar 2026'];
+      if (nodeIdx === 2) {
+        this.showToast('⭐ Earliest observation ($T_{earliest}$) supported by cloud-free usable imagery: 11 Feb 2026');
+      } else if (nodeIdx === 1) {
+        this.showToast('⚠️ Pass on 27 Jan 2026 obscured by cloud cover (Fmask QA band rejected)');
+      } else {
+        this.showToast(`Timeline Scrubber set to observation pass: ${dates[nodeIdx]}`);
+      }
+    },
+
+    updateQualityMasks: function () {
+      this.playUiClick();
+      const chkCloud = document.getElementById('chk-mask-cloud');
+      const chkShadow = document.getElementById('chk-mask-shadow');
+      const cloudLayer = document.getElementById('mask-cloud-layer');
+      const shadowLayer = document.getElementById('mask-shadow-layer');
+
+      if (cloudLayer) {
+        if (chkCloud && chkCloud.checked) cloudLayer.classList.add('active');
+        else cloudLayer.classList.remove('active');
+      }
+
+      if (shadowLayer) {
+        if (chkShadow && chkShadow.checked) shadowLayer.classList.add('active');
+        else shadowLayer.classList.remove('active');
+      }
+
+      this.showToast('Quality masks recalibrated: Precision confidence locked at 97.2%');
+    },
+
+    toggleChangeHeatmap: function () {
+      this.playUiClick();
+      const mask = document.getElementById('mask-change-heat');
+      if (mask) {
+        mask.classList.toggle('active');
+        const isActive = mask.classList.contains('active');
+        this.showToast(isActive ? 'Change detection heatmap overlay: ON' : 'Change detection heatmap overlay: OFF');
+      }
+    },
+
+    sendToAnalystQueue: function (eventId) {
+      this.playSuccessChime();
+      this.navigateTo('analyst-queue');
+      this.selectQueueItem(eventId || 'REV-801');
+      this.showToast('Event transferred to Analyst Review Queue for validation.');
+    },
+
+    // -------------------------------------------------------------------------
+    // 2.2.4 Discovery and Clustering
+    // -------------------------------------------------------------------------
+    initClustering: function () {
+      this.selectCluster(1);
+    },
+
+    selectCluster: function (clusterId, cardEl) {
+      this.playUiClick();
+      AppState.activeClusterId = clusterId;
+
+      document.querySelectorAll('.cluster-group-card').forEach((c, i) => {
+        if (i + 1 === clusterId) c.classList.add('active');
+        else c.classList.remove('active');
+      });
+
+      const header = document.getElementById('active-cluster-member-header');
+      const clusterNames = [
+        'Discovered Peer Sites in Cluster 1 (Riverbank Construction)',
+        'Discovered Peer Sites in Cluster 2 (Heavy Vehicle Staging Formations)',
+        'Discovered Peer Sites in Cluster 3 (Woodland Slope Clearance)',
+        'Discovered Peer Sites in Cluster 4 (Reservoir Margin Siltation)'
+      ];
+      if (header) header.innerText = clusterNames[clusterId - 1] || 'Cluster Peer Sites';
+
+      this.renderClusterPeers(clusterId);
+    },
+
+    renderClusterPeers: function (clusterId) {
+      const container = document.getElementById('cluster-peer-cards-container');
+      if (!container) return;
+
+      const mockPeers = [
+        { name: `Site Cluster-${clusterId}.01`, sim: 96.4, coords: '30.384°N, 79.326°E', gsd: '10m' },
+        { name: `Site Cluster-${clusterId}.02`, sim: 94.8, coords: '30.395°N, 79.338°E', gsd: '10m' },
+        { name: `Site Cluster-${clusterId}.03`, sim: 93.1, coords: '30.370°N, 79.312°E', gsd: '10m' },
+        { name: `Site Cluster-${clusterId}.04`, sim: 91.5, coords: '30.412°N, 79.360°E', gsd: '10m' }
+      ];
+
+      container.innerHTML = mockPeers.map(p => `
+        <div style="background:var(--bg-subtle);border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:10px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <strong style="font-size:12px;color:var(--text-title);">${p.name}</strong>
+            <span class="nav-badge green" style="font-size:10px;">${p.sim}% Sim</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">${p.coords} • GSD ${p.gsd}</div>
+          <button class="btn-card-action" style="width:100%;font-size:11px;" onclick="window.EarthApp.inspectInChange('river_struct')">Inspect Evidence</button>
+        </div>
+      `).join('');
+    },
+
+    // -------------------------------------------------------------------------
+    // 2.2.5 Analyst Workflow and Provenance
+    // -------------------------------------------------------------------------
+    initAnalystQueue: function () {
+      this.renderQueueItems();
+      this.selectQueueItem('REV-801');
+    },
+
+    renderQueueItems: function () {
+      const list = document.getElementById('queue-items-list');
+      if (!list) return;
+
+      list.innerHTML = AppState.reviewQueue.map(item => `
+        <div class="queue-candidate-card ${item.id === AppState.activeQueueId ? 'active' : ''}" onclick="window.EarthApp.selectQueueItem('${item.id}')">
+          <div class="queue-candidate-top">
+            <span class="queue-priority-pill ${item.priority}">${item.priority} Priority</span>
+            <span style="font-size:11px;font-weight:700;color:var(--text-muted);">${item.date}</span>
+          </div>
+          <div style="font-size:13px;font-weight:800;color:var(--text-title);margin-bottom:3px;">${item.id}: ${item.title}</div>
+          <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:6px;">${item.coords}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;font-weight:700;color:var(--brand-primary);">${item.confidence}% Confidence</span>
+            <span class="badge-status ${item.status === 'Confirmed Change' ? 'success' : (item.status === 'Rejected (False Alarm)' ? 'danger' : 'info')}" style="font-size:10.5px;">${item.status}</span>
+          </div>
+        </div>
+      `).join('');
+    },
+
+    selectQueueItem: function (id) {
+      this.playUiClick();
+      AppState.activeQueueId = id;
+      this.renderQueueItems();
+
+      const candidate = AppState.reviewQueue.find(q => q.id === id) || AppState.reviewQueue[0];
+      const inspector = document.getElementById('queue-inspector-column');
+      if (!inspector) return;
+
+      inspector.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span class="queue-priority-pill ${candidate.priority}">${candidate.priority} Priority</span>
+              <span class="nav-badge red" style="font-size:11px;">${candidate.changeType}</span>
+            </div>
+            <h3 style="font-size:17px;font-weight:800;color:var(--text-title);">${candidate.id} — ${candidate.title}</h3>
+            <span style="font-size:12px;color:var(--text-muted);">${candidate.sector} • ${candidate.coords}</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:22px;font-weight:900;color:var(--brand-primary);">${candidate.confidence}%</div>
+            <span style="font-size:11px;color:var(--text-muted);font-weight:700;">Calibrated Confidence</span>
+          </div>
+        </div>
+
+        <!-- Before/After Evidence Thumbnails -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);overflow:hidden;background:#0f172a;height:140px;position:relative;">
+            <div style="position:absolute;top:6px;left:6px;background:rgba(15,23,42,0.8);color:#fff;font-size:10px;padding:2px 8px;border-radius:var(--radius-full);z-index:2;">T1: 12 Jan 2026 (Baseline)</div>
+            ${this.getProceduralTileSvg('water')}
+          </div>
+          <div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);overflow:hidden;background:#0f172a;height:140px;position:relative;">
+            <div style="position:absolute;top:6px;left:6px;background:rgba(5,150,105,0.9);color:#fff;font-size:10px;padding:2px 8px;border-radius:var(--radius-full);z-index:2;">T2: 13 Mar 2026 (Post-Event)</div>
+            ${this.getProceduralTileSvg('river_struct')}
+          </div>
+        </div>
+
+        <p style="font-size:12.5px;color:var(--text-main);background:var(--bg-subtle);padding:10px 14px;border-radius:var(--radius-sm);border-left:3px solid var(--brand-accent);">
+          <strong>Analyst Finding:</strong> ${candidate.desc}
+        </p>
+
+        <!-- Provenance & Source Metadata Sheet -->
+        <div class="provenance-sheet">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <strong style="font-size:12px;color:var(--text-title);">Geospatial Provenance & Lineage (Section 2.2.5)</strong>
+            <span class="nav-badge green" style="font-size:10px;">Air-Gapped Sovereign Certified</span>
+          </div>
+          <table class="provenance-table">
+            <tr><td class="provenance-label">T1 Source Scene:</td><td class="provenance-val">${candidate.sceneT1}</td></tr>
+            <tr><td class="provenance-label">T2 Source Scene:</td><td class="provenance-val">${candidate.sceneT2}</td></tr>
+            <tr><td class="provenance-label">Projection / CRS:</td><td class="provenance-val">EPSG:32644 (WGS 84 / UTM Zone 44N)</td></tr>
+            <tr><td class="provenance-label">Co-Registration:</td><td class="provenance-val">SIFT Sub-pixel (RMSE: 0.14 px) — Passed</td></tr>
+            <tr><td class="provenance-label">AI Model Runtime:</td><td class="provenance-val">EarthSemantic-ViT-L/14 INT8 ONNX (Local CPU)</td></tr>
+            <tr><td class="provenance-label">Earliest Obs (T_earliest):</td><td class="provenance-val">${candidate.earliestObs}</td></tr>
+          </table>
+        </div>
+
+        <!-- Human-in-the-Loop Decision Buttons -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">Analyst Decision (Feeds Continuous Reranking Loop):</div>
+          <div class="analyst-decision-bar">
+            <button class="btn-decision btn-confirm" onclick="window.EarthApp.analystDecision('Confirm', '${candidate.id}')">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Confirm Genuine Change</span>
+            </button>
+            <button class="btn-decision btn-reject" onclick="window.EarthApp.analystDecision('Reject', '${candidate.id}')">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span>Reject (False Alarm)</span>
+            </button>
+            <button class="btn-decision btn-escalate" onclick="window.EarthApp.analystDecision('Escalate', '${candidate.id}')">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Escalate Tasking</span>
+            </button>
+          </div>
+        </div>
+      `;
+    },
+
+    analystDecision: function (action, eventId) {
+      const candidate = AppState.reviewQueue.find(q => q.id === eventId);
+      if (!candidate) return;
+
+      if (action === 'Confirm') {
+        this.playSuccessChime();
+        candidate.status = 'Confirmed Change';
+        this.showToast(`✅ ${eventId} Confirmed: Positive feedback applied to retrieval reranker.`);
+        this.appendAuditRow(eventId, 'Confirmed Change', 'success', candidate.changeType, candidate.sceneT2, '+0.12 (Positive Reinforce)');
+      } else if (action === 'Reject') {
+        this.playBeep(420, 0.15, 'sawtooth');
+        candidate.status = 'Rejected (False Alarm)';
+        this.showToast(`❌ ${eventId} Rejected as False Alarm: Confounder penalty recorded.`);
+        this.appendAuditRow(eventId, 'Rejected (False Alarm)', 'danger', 'Confounder Filtered', candidate.sceneT2, '-0.24 (Penalized Confounder)');
+      } else {
+        this.playBeep(880, 0.1, 'sine');
+        candidate.status = 'Escalated for Tasking';
+        this.showToast(`🚩 ${eventId} Escalated for Cartosat-3 sub-meter retasking.`);
+        this.appendAuditRow(eventId, 'Escalated Tasking', 'warning', 'High-Res Requested', candidate.sceneT2, '0.00 (Neutral)');
+      }
+
+      this.selectQueueItem(eventId);
+      const pendingCount = AppState.reviewQueue.filter(q => q.status === 'Pending Review').length;
+      const countBadge = document.getElementById('badge-pending-count');
+      const sidebarBadge = document.getElementById('sidebar-queue-badge');
+      if (countBadge) countBadge.innerText = `${pendingCount} Pending Verification`;
+      if (sidebarBadge) sidebarBadge.innerText = pendingCount;
+    },
+
+    appendAuditRow: function (id, decisionText, badgeClass, cat, scene, feedback) {
+      const tbody = document.getElementById('audit-trail-tbody');
+      if (!tbody) return;
+
+      const now = new Date();
+      const timeStr = `${now.toLocaleDateString()} ${now.toLocaleTimeString()} UTC`;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><code>${id}</code></td>
+        <td>${timeStr}</td>
+        <td>Admin Officer (SDMA)</td>
+        <td><span class="badge-status ${badgeClass}">${decisionText}</span></td>
+        <td>${cat}</td>
+        <td><code>${scene.substring(0, 24)}...</code></td>
+        <td><strong style="color:${badgeClass === 'success' ? 'var(--brand-primary)' : (badgeClass === 'danger' ? '#ef4444' : '#f59e0b')}">${feedback}</strong></td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+    },
+
+    clearAuditLog: function () {
+      this.playUiClick();
+      const tbody = document.getElementById('audit-trail-tbody');
+      if (tbody) tbody.innerHTML = '';
+      this.showToast('Demo audit log cleared.');
+    },
+
+    exportAuditTrail: function () {
+      this.playSuccessChime();
+      this.showToast('Exporting cryptographic audit log (JSON-LD Provenance)...');
+    },
+
+    // -------------------------------------------------------------------------
+    // 2.2.6 & 2.3 Incremental Archive Ingestion & Evaluation Hub
+    // -------------------------------------------------------------------------
+    initIngestionHub: function () {
+      // Prepared for interactive calls
+    },
+
+    simulateIncrementalIngestion: function (sceneName) {
+      this.playUiClick();
+      this.showToast(`Ingesting incoming pass: ${sceneName}...`);
+
+      const p1 = document.getElementById('pip-step-1');
+      const p2 = document.getElementById('pip-step-2');
+      const p3 = document.getElementById('pip-step-3');
+      const p4 = document.getElementById('pip-step-4');
+      const term = document.getElementById('ingest-terminal-output');
+
+      [p1, p2, p3, p4].forEach(p => { if (p) { p.classList.remove('complete'); p.classList.remove('active'); } });
+
+      if (p1) p1.classList.add('active');
+      if (term) term.innerHTML += `<br>[INGEST] Ingesting Cloud Optimized GeoTIFF: ${sceneName}...`;
+
+      setTimeout(() => {
+        if (p1) { p1.classList.remove('active'); p1.classList.add('complete'); }
+        if (p2) p2.classList.add('active');
+        if (term) term.innerHTML += `<br>[QUALITY] Applying Fmask 4.4 and Co-registration sub-pixel alignment...`;
+      }, 500);
+
+      setTimeout(() => {
+        if (p2) { p2.classList.remove('active'); p2.classList.add('complete'); }
+        if (p3) p3.classList.add('active');
+        if (term) term.innerHTML += `<br>[EMBEDDING] Local EarthSemantic-ViT ONNX generating 512-D vectors for 144 new tiles...`;
+      }, 1000);
+
+      setTimeout(() => {
+        if (p3) { p3.classList.remove('active'); p3.classList.add('complete'); }
+        if (p4) p4.classList.add('active');
+        if (term) term.innerHTML += `<br>[FAISS] Appending 144 vectors to HNSW graph index. Index rebuild skipped (0ms downtime).`;
+      }, 1500);
+
+      setTimeout(() => {
+        if (p4) { p4.classList.remove('active'); p4.classList.add('complete'); }
+        AppState.indexedTilesCount += 144;
+        const countEl = document.getElementById('telemetry-total-tiles');
+        const searchCountEl = document.getElementById('search-tiles-stat');
+        const evalModalTiles = document.getElementById('eval-modal-tiles-val');
+
+        if (countEl) countEl.innerText = `${AppState.indexedTilesCount.toLocaleString()} Tiles`;
+        if (searchCountEl) searchCountEl.innerText = `${AppState.indexedTilesCount.toLocaleString()} Tiles`;
+        if (evalModalTiles) evalModalTiles.innerText = `${AppState.indexedTilesCount.toLocaleString()} Tiles`;
+
+        if (term) {
+          term.innerHTML += `<br><span style="color:#34d399;">[SUCCESS] Incremental update complete. Total indexed archive: ${AppState.indexedTilesCount} tiles. Air-gapped compliance: 100%.</span>`;
+          term.scrollTop = term.scrollHeight;
+        }
+
+        this.playSuccessChime();
+        this.showToast(`✅ Successfully indexed +144 tiles from ${sceneName} without rebuilding index!`);
+      }, 2000);
+    },
+
+    showEvaluationModal: function () {
+      this.playUiClick();
+      const modal = document.getElementById('modal-eval-report');
+      if (modal) modal.classList.add('open');
+    },
+
+    closeEvaluationModal: function () {
+      this.playUiClick();
+      const modal = document.getElementById('modal-eval-report');
+      if (modal) modal.classList.remove('open');
     }
   };
 
   window.EarthApp = EarthApp;
+
   document.addEventListener('DOMContentLoaded', () => EarthApp.init());
 })();
